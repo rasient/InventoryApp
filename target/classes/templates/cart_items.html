@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>List Cart Items</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body>
+	<div th:insert="navbar :: navbar">  </div>
+	<div class="container text-center">
+		<div>
+			<h1>Cart Items List</h1>
+		</div>
+		<div>
+			<table class="table table-bordered">
+				<thead class="thead-dark">
+					<tr>
+						<th>ID</th>
+						<th>Product</th>
+						<th>User</th>
+						<th>Quantity</th>
+						<th><a th:href="@{/cartItems/new}">New</a></th>
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:each="cartItem : ${listCartItems}">
+						<tr>
+							<td>[[${cartItem.id}]]</td>
+							<td>[[${cartItem.product}]]</td>
+							<td>[[${cartItem.user}]]</td>
+							<td>[[${cartItem.quantity}]]</td>
+							<td>
+								<a th:href="'/cartItems/edit/' + ${cartItem.id}">Edit</a>
+								&nbsp;
+								<a th:href="'/cartItems/delete/' + ${cartItem.id}">Delete</a>
+							</td>
+						</tr>	
+					</th:block>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

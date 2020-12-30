@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>NavigationBar</title>
+</head>
+<body>
+	<nav th:fragment="navbar" class="navbar navbar-expand-sm bg-primary navbar-dark">
+	  <ul class="navbar-nav">
+	    <li class="nav-item">
+	    	<a class="nav-link" th:href="@{/categories}">List Categories</a>
+	    </li>
+	    <li class="nav-item">
+	    	<a class="nav-link" th:href="@{/products}">List Products</a>
+	    </li>
+	    <li class="nav-item">
+	    	<a class="nav-link" th:href="@{/brands}">List Brands</a>
+	    </li>
+	    <li class="nav-item">
+	    	<a class="nav-link" th:href="@{/users}">List Users</a>
+	    </li>
+	    <li class="nav-item">
+	    	<a class="nav-link" th:href="@{/cartItems}">List Cart Items</a>
+	    </li>
+	  </ul>
+	</nav>
+</body>
+</html>
