@@ -12,14 +12,26 @@
 			<h1>Cart Items List</h1>
 		</div>
 		<div>
-			<table class="table table-bordered">
+			<form th:action="@{/cartItems/page/1}">
+				<input type="hidden" name="sortField" th:value="${sortField}">
+				<input type="hidden" name="sortDir" th:value="${sortDir}">
+				Filter: <input type="text" name="keyword" th:value="${keyword}" title="Search in ID, Product, User and Quantity" required>
+				&nbsp;
+				<input type="submit" value="Search" class="btn btn-primary">
+				&nbsp;
+				<input type="button" value="X" class="btn btn-danger" onclick="clearFilter()">
+			</form>
+		</div>
+		<div>&nbsp;</div>
+		<div>
+			<table class="table table-striped table-bordered">
 				<thead class="thead-dark">
 					<tr>
-						<th>ID</th>
-						<th>Product</th>
-						<th>User</th>
-						<th>Quantity</th>
-						<th><a th:href="@{/cartItems/new}">New</a></th>
+						<th style="vertical-align: middle;"><a th:href="@{'/cartItems/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">ID</a></th>
+						<th style="vertical-align: middle;"><a th:href="@{'/cartItems/page/' + ${currentPage} + '?sortField=product.name&sortDir=' + ${reverseSortDir}} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">Product</a></th>
+						<th style="vertical-align: middle;"><a th:href="@{'/cartItems/page/' + ${currentPage} + '?sortField=user.email&sortDir=' + ${reverseSortDir}} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">User</a></th>
+						<th style="vertical-align: middle;"><a th:href="@{'/cartItems/page/' + ${currentPage} + '?sortField=quantity&sortDir=' + ${reverseSortDir}} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">Quantity</a></th>
+						<th><a th:href="@{/cartItems/new}" class="btn btn-primary">New</a></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -30,15 +42,39 @@
 							<td>[[${cartItem.user}]]</td>
 							<td>[[${cartItem.quantity}]]</td>
 							<td>
-								<a th:href="'/cartItems/edit/' + ${cartItem.id}">Edit</a>
+								<a th:href="'/cartItems/edit/' + ${cartItem.id}" class="btn btn-primary">Edit</a>
 								&nbsp;
-								<a th:href="'/cartItems/delete/' + ${cartItem.id}">Delete</a>
+								<a th:href="'/cartItems/delete/' + ${cartItem.id}" class="btn btn-danger">Delete</a>
 							</td>
 						</tr>	
 					</th:block>
 				</tbody>
 			</table>
 		</div>
+		<div>
+			Total Items: [[${totalItems}]] - Page [[${currentPage}]] of [[${totalPages}]]
+			&nbsp; - &nbsp;
+			<a th:if="${currentPage > 1}" th:href="@{/cartItems/page/1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">First</a>
+			<span th:unless="${currentPage > 1}">First</span>
+			<a th:if="${currentPage > 1}" th:href="@{'/cartItems/page/' + ${currentPage - 1}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">Previous</a>
+			<span th:unless="${currentPage > 1}">Previous</span>
+			&nbsp;&nbsp;
+			<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+				<a th:if="${i != currentPage}" th:href="@{'/cartItems/page/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">[[${i}]]</a>
+				<span th:unless="${i != currentPage}">[[${i}]]</span>
+				&nbsp;&nbsp;
+			</span>
+			<a th:if="${currentPage < totalPages}" th:href="@{'/cartItems/page/' + ${currentPage + 1}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">Next</a>
+			<span th:unless="${currentPage < totalPages}">Next</span>
+			<a th:if="${currentPage < totalPages}" th:href="@{'/cartItems/page/' + ${totalPages}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">Last</a>
+			<span th:unless="${currentPage < totalPages}">Last</span>
+		</div>
 	</div>
+	<div th:insert="navbar :: footer">  </div>
 </body>
+<script type="text/javascript">
+	function clearFilter() {
+		window.location = '/cartItems';
+ 	}
+ </script>
 </html>

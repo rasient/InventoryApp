@@ -12,15 +12,27 @@
 			<h1>Products List</h1>
 		</div>
 		<div>
-			<table class="table table-bordered">
+			<form th:action="@{/products/page/1}">
+				<input type="hidden" name="sortField" th:value="${sortField}">
+				<input type="hidden" name="sortDir" th:value="${sortDir}">
+				Filter: <input type="text" name="keyword" th:value="${keyword}" title="Search in ID, Name, Price and Category" required>
+				&nbsp;
+				<input type="submit" value="Search" class="btn btn-primary">
+				&nbsp;
+				<input type="button" value="X" class="btn btn-danger" onclick="clearFilter()">
+			</form>
+		</div>
+		<div>&nbsp;</div>
+		<div>
+			<table class="table table-striped table-bordered">
 				<thead class="thead-dark">
 					<tr>
-						<th>ID</th>
-						<th>Name</th>
-						<th>Price</th>
-						<th>Category</th>
-						<th>Details</th>
-						<th><a th:href="@{/products/new}">New</a></th>
+						<th style="vertical-align: middle;"><a th:href="@{'/products/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">ID</a></th>
+						<th style="vertical-align: middle;"><a th:href="@{'/products/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">Name</a></th>
+						<th style="vertical-align: middle;"><a th:href="@{'/products/page/' + ${currentPage} + '?sortField=price&sortDir=' + ${reverseSortDir}} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">Price</a></th>
+						<th style="vertical-align: middle;"><a th:href="@{'/products/page/' + ${currentPage} + '?sortField=category.name&sortDir=' + ${reverseSortDir}} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">Category</a></th>
+						<th style="vertical-align: middle;">Details</th>
+						<th><a th:href="@{/products/new}" class="btn btn-primary">New</a></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -32,15 +44,39 @@
 							<td>[[${product.category.name}]]</td>
 							<td>[[${product.details}]]</td>
 							<td>
-								<a th:href="'/products/edit/' + ${product.id}">Edit</a>
+								<a th:href="'/products/edit/' + ${product.id}" class="btn btn-primary">Edit</a>
 								&nbsp;
-								<a th:href="'/products/delete/' + ${product.id}">Delete</a>
+								<a th:href="'/products/delete/' + ${product.id}" class="btn btn-danger">Delete</a>
 							</td>
 						</tr>	
 					</th:block>
 				</tbody>
 			</table>
 		</div>
+		<div>
+			Total Items: [[${totalItems}]] - Page [[${currentPage}]] of [[${totalPages}]]
+			&nbsp; - &nbsp;
+			<a th:if="${currentPage > 1}" th:href="@{/products/page/1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">First</a>
+			<span th:unless="${currentPage > 1}">First</span>
+			<a th:if="${currentPage > 1}" th:href="@{'/products/page/' + ${currentPage - 1}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">Previous</a>
+			<span th:unless="${currentPage > 1}">Previous</span>
+			&nbsp;&nbsp;
+			<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+				<a th:if="${i != currentPage}" th:href="@{'/products/page/' + ${i}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">[[${i}]]</a>
+				<span th:unless="${i != currentPage}">[[${i}]]</span>
+				&nbsp;&nbsp;
+			</span>
+			<a th:if="${currentPage < totalPages}" th:href="@{'/products/page/' + ${currentPage + 1}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">Next</a>
+			<span th:unless="${currentPage < totalPages}">Next</span>
+			<a th:if="${currentPage < totalPages}" th:href="@{'/products/page/' + ${totalPages}} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">Last</a>
+			<span th:unless="${currentPage < totalPages}">Last</span>
+		</div>
 	</div>
+	<div th:insert="navbar :: footer">  </div>
 </body>
+<script type="text/javascript">
+	function clearFilter() {
+		window.location = '/products';
+ 	}
+ </script>
 </html>
