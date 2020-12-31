@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 </head>
 <body>
+	<div th:insert="navbar :: navbar">  </div>
 	<div class="container text-center">
 		<div th:if="${brand.id == null}">
 			<h1>Create New Brand</h1>
@@ -38,5 +39,6 @@
 			</div>
 		</form>
 	</div>
+	<div th:insert="navbar :: footer">  </div>
 </body>
 </html>

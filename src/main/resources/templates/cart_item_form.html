@@ -7,10 +7,11 @@
 	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 </head>
 <body>
+	<div th:insert="navbar :: navbar">  </div>
 	<div class="container text-center">
 		<div>
-			<h1 th:if="${cartItem.id == null}">Create New Product</h1>
-			<h1 th:unless="${cartItem.id == null}">Edit Product</h1>
+			<h1 th:if="${cartItem.id == null}">Create New Cart Item</h1>
+			<h1 th:unless="${cartItem.id == null}">Edit Cart Item</h1>
 		</div>
 		<form th:action="@{/cartItems/save}" th:object="${cartItem}" method="post" style="max-width: 600px; margin: 0 auto;">
 			<input type="hidden" th:field="*{id}" th:value="${cartItem.id}">
@@ -48,5 +49,6 @@
 			</div>
 		</form>
 	</div>
+	<div th:insert="navbar :: footer">  </div>
 </body>
 </html>

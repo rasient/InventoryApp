@@ -27,6 +27,12 @@ public class Category {
 	@JoinColumn(name = "brand_id")
 	private Brand brand;
 	
+	public Category() {}
+	
+	public Category(String name) {
+		super();
+		this.name = name;
+	}
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
 	private List<Product> products = new ArrayList<>();
 	
