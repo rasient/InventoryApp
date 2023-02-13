@@ -8,8 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Brand {
@@ -21,8 +20,7 @@ public class Brand {
 	@Column(length = 45, nullable = false, unique = true)
 	private String name;
 	
-	@OneToMany
-	@JoinColumn(name = "brand_id")
+	@ManyToMany(mappedBy = "brands")
 	private List<Category> categories = new ArrayList<>();
 
 	public Integer getId() {
@@ -47,6 +45,11 @@ public class Brand {
 
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
 	
 }

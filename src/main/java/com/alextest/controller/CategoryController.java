@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.alextest.Constants;
 import com.alextest.model.Category;
+import com.alextest.repository.BrandRepository;
 import com.alextest.repository.CategoryRepository;
 
 @Controller
@@ -20,6 +21,9 @@ public class CategoryController {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private BrandRepository brandRepository;
 	
 	@GetMapping("/categories")
 	public String listCategories(Model model) {
@@ -47,6 +51,7 @@ public class CategoryController {
 	@GetMapping("/categories/new")
 	public String showCategoryNewForm(Model model) {
 		model.addAttribute("category", new Category());
+		model.addAttribute("listBrands", brandRepository.findAll());
 		return "category_form";
 	}
 	
@@ -59,6 +64,7 @@ public class CategoryController {
 	@GetMapping("/categories/edit/{id}")
 	public String showEditCategoryForm(@PathVariable Integer id, Model model) {
 		model.addAttribute("category", categoryRepository.findById(id).get());
+		model.addAttribute("listBrands", brandRepository.findAll());
 		return "category_form";
 	}
 	

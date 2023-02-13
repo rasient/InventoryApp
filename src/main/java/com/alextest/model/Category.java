@@ -10,7 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -23,9 +24,9 @@ public class Category {
 	@Column(length = 45, nullable = false, unique = true)
 	private String name;
 	
-	@ManyToOne
-	@JoinColumn(name = "brand_id")
-	private Brand brand;
+	@ManyToMany
+	@JoinTable(name = "brands_categories", joinColumns = @JoinColumn(referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(referencedColumnName = "id"))
+	private List<Brand> brands = new ArrayList<>();;
 	
 	public Category() {}
 	
@@ -48,12 +49,14 @@ public class Category {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Brand getBrand() {
-		return brand;
+	public List<Brand> getBrands() {
+		return brands;
 	}
-	public void setBrand(Brand brand) {
-		this.brand = brand;
+
+	public void setBrands(List<Brand> brands) {
+		this.brands = brands;
 	}
+
 	@Override
 	public String toString() {
 		return name;

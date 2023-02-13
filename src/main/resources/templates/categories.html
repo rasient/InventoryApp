@@ -29,6 +29,7 @@
 					<tr>
 						<th style="vertical-align: middle;"><a th:href="@{'/categories/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">ID</a></th>
 						<th style="vertical-align: middle;"><a th:href="@{'/categories/page/' + ${currentPage} + '?sortField=name&sortDir=' + ${reverseSortDir}} + ${keyword != null ? '&keyword=' + keyword : '&keyword='}">Name</a></th>
+						<th style="vertical-align: middle;">Brand</th>
 						<th><a th:href="@{/categories/new}" class="btn btn-primary">New</a></th>
 					</tr>
 				</thead>
@@ -37,6 +38,7 @@
 						<tr>
 							<td>[[${category.id}]]</td>
 							<td>[[${category.name}]]</td>
+							<td>[[${category.brands}]]</td>
 							<td>
 								<a th:href="'/categories/edit/' + ${category.id}" class="btn btn-primary">Edit</a>
 								&nbsp;
